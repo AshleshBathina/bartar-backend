@@ -1,7 +1,7 @@
 import express from "express";
-import pool from "./configs/db.js"
+import pool from "./configs/db.js";
 
-const app = express()
+const app = express();
 
 app.get('/', async (req, res) => {
   console.log('hit this--------------------')
