@@ -6,7 +6,7 @@ const app = express();
 app.get('/', async (req, res) => {
   const data = await pool.query('SELECT * FROM owner');
   console.log(data.rows);
-  return {data};
-})
+  res.json({data});
+});
 
 export default app;
