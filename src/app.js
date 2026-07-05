@@ -3,10 +3,13 @@ import pool from "./configs/db.js";
 
 const app = express();
 
-app.get('/', async (req, res) => {
-  const data = await pool.query('SELECT * FROM owner');
-  console.log(data.rows);
-  res.json({data});
+app.get('/health', async (req, res) => {
+  try{
+    await pool.query('SELECT 1');
+    res.json({ status: 'OK' });
+  } catch (error) {
+    res.status(500).json({ status: 'Error' });
+  }
 });
 
 export default app;
