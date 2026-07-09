@@ -1,21 +1,19 @@
 {
-  "name": "backend",
+  "name": "bartar-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon ./src/server.js",
-    "migrate": "node-pg-migrate -m src/db/migrations"
+    "start": "nodemon ./src/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ashlesh Bathina",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "node-pg-migrate": "^8.0.4",
-    "nodemon": "^3.1.14",
-    "pg": "^8.22.0"
+    "mongoose": "^9.7.4",
+    "nodemon": "^3.1.14"
   }
 }

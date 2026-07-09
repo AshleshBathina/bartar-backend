@@ -1,6 +1,14 @@
-import { Pool } from "pg"
-import "./env.js";
+import mongoose from "mongoose";
+import "./env.js"
 
-const pool = new Pool({connectionString: process.env.DATABASE_URL});
+const connectDB = async () => {
+  try{
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("DB connected successfully");
+  } catch(err){
+    console.error("Error connecting to DB: ", err);
+    process.exit(1);
+  }
+}
 
-export default pool;
+export default connectDB;
