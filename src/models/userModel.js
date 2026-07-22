@@ -14,15 +14,22 @@ const userSchema = new Schema({
   phoneNumber: {
     type: String,
     trim: true,
-    unique: true
+    sparse: true,
+    unique: true,
+    match: /^[6-9][0-9]{9}$/
   },
   email: {
-    required: true,
     unique: true,
     lowercase: true,
+    sparse: true,
     trim: true,
     type: String,
-    match: '/^\S+@\S+\.\S+$/'
+    match: /^\S+@\S+\.\S+$/
+  },
+  profile_picture: {
+    type: String,
+    default: null,
+    trim: true
   },
   age: {
     required: false,
@@ -30,6 +37,12 @@ const userSchema = new Schema({
   },
   
 }, {timestamps: true})
+
+userSchema.pre("validate", next => {
+  if(!name && !email){
+    return next(new Error("Either email or phone number is required."))
+  }
+})
 
 const userModel = mongoose.model('User', userSchema);
 
