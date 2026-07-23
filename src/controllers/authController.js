@@ -4,7 +4,41 @@ import User from "../models/userModel.js";
 import "../configs/env.js";
 
 export const register = async (req, res) => {
+  try{
+    const {name, phoneNumber, email, profilePicture, password} = req.body;
 
+    console.log("Register Request: ", req.body);
+
+    const contactInfo = {};
+
+    if(!name || (!phoneNumber && !email) || !password){
+      return res.status(400).json({error: "Phone or Email along with Name and Password required"});
+    }
+
+    if(phoneNumber) contactInfo.phoneNumber = phoneNumber;
+    if(email) contactInfo.email = email;
+
+    console.log("Contact Info: ", contactInfo);
+    console.log(process.env.BCRYPT_SALT);
+    
+    const salt = Number(process.env.BCRYPT_SALT, 10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    console.log("Hashed Password: ", hashedPassword);
+
+    const user = new User({...contactInfo, name, password: hashedPassword});
+    await user.save();
+
+    console.log("User Registered: ", user);
+
+    const payload = {id: user._id, name: user.name, ...contactInfo};
+
+    const token = await jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '7d'});
+
+    return res.status(200).json({user: payload, jwtToken: token});
+  } catch(err){
+    return res.status(500).json({error: err.message});
+  }
 }
 
 export const login = async (req, res) => {

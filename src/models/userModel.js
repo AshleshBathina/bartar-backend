@@ -26,20 +26,16 @@ const userSchema = new Schema({
     type: String,
     match: /^\S+@\S+\.\S+$/
   },
-  profile_picture: {
+  profilePicture: {
     type: String,
     default: null,
     trim: true
   },
-  age: {
-    required: false,
-    type: Number
-  },
   
 }, {timestamps: true})
 
-userSchema.pre("validate", next => {
-  if(!name && !email){
+userSchema.pre("validate", function next() {
+  if(!this.phoneNumber && !this.email){
     return next(new Error("Either email or phone number is required."))
   }
 })
